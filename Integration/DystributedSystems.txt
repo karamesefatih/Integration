@@ -1,0 +1,4 @@
+﻿I use Distributed Systems in my first job. In this job first I created API's which send data to MQTT topic then RDBMS, second I created a microservice which take data from mqtt topicsthen send them to kafka then send that to mail service or Mongo. 
+But in this case I didnt understand how should I change code for distributed systems because when you abstract ItemIntegrationService a ConcurrentBag named SavedItems creating as well.
+Also I thought I shouldnt create another Program.cs file for Single Server Scenario and Multiple Server Scenario I just thought you basically comment Server 2 for trying Single Server Scenario. 
+Good Days 
