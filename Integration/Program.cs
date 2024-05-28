@@ -6,9 +6,10 @@ public abstract class Program
 {
     public static void Main(string[] args)
     {
-        //Server 1
+        //Single Server Scenerio
+        Console.WriteLine("Single Server Scenerio Start");
         var service = new ItemIntegrationService();
-        
+
         ThreadPool.QueueUserWorkItem(_ => service.SaveDiffirentItems("a"));
         ThreadPool.QueueUserWorkItem(_ => service.SaveDiffirentItems("b"));
         ThreadPool.QueueUserWorkItem(_ => service.SaveDiffirentItems("c"));
@@ -20,27 +21,46 @@ public abstract class Program
         ThreadPool.QueueUserWorkItem(_ => service.SaveDiffirentItems("c"));
 
         Thread.Sleep(5000);
+        Console.WriteLine("Everything recorded");
+        Console.WriteLine("Single Server Scenerio Start");
+        service.GetAllItems().ForEach(Console.WriteLine);
+        //Multiple Sever Scenerio
+        //Server 1
+        Console.WriteLine("Multiple Server Scenerio Start");
+        var multipleServerService = new ItemIntegrationService();
+        
+        service.SaveItemForDistributedSystems("a");
+        service.SaveItemForDistributedSystems("b");
+        service.SaveItemForDistributedSystems("c");
+
+
+
+        service.SaveItemForDistributedSystems("a");
+        service.SaveItemForDistributedSystems("b");
+        service.SaveItemForDistributedSystems("c");
+
+
         Console.WriteLine("Everything recorded Server 1:");
 
         //Server 2
-        var service2 = new ItemIntegrationService();
+        var multipleServerService2 = new ItemIntegrationService();
 
-        ThreadPool.QueueUserWorkItem(_ => service2.SaveDiffirentItems("a"));
-        ThreadPool.QueueUserWorkItem(_ => service2.SaveDiffirentItems("b"));
-        ThreadPool.QueueUserWorkItem(_ => service2.SaveDiffirentItems("c"));
+        service.SaveItemForDistributedSystems("a");
+        service.SaveItemForDistributedSystems("b");
+        service.SaveItemForDistributedSystems("c");
 
-        Thread.Sleep(500);
+ 
 
-        ThreadPool.QueueUserWorkItem(_ => service2.SaveDiffirentItems("d"));
-        ThreadPool.QueueUserWorkItem(_ => service2.SaveDiffirentItems("b"));
-        ThreadPool.QueueUserWorkItem(_ => service2.SaveDiffirentItems("e"));
+        service.SaveItemForDistributedSystems("b");
+        service.SaveItemForDistributedSystems("d");
+        service.SaveItemForDistributedSystems("e");
 
-        Thread.Sleep(5000);
+
 
         Console.WriteLine("Everything recorded Server 2:");
 
-        service.GetAllItems().ForEach(Console.WriteLine);
-        service2.GetAllItems().ForEach(Console.WriteLine);
+        multipleServerService.GetAllItemsForDistributedSystems().ForEach(Console.WriteLine);
+        multipleServerService.GetAllItemsForDistributedSystems().ForEach(Console.WriteLine);
 
         Console.ReadLine();
     }
